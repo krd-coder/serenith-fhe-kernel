@@ -1,0 +1,3 @@
+# TODO: Define the Rust workspace and include the rust-fhe-kernel crate as a member.
+# TODO: Configure shared Rust edition, package metadata, and dependency versions.
+# TODO: Configure the PyO3 extension build used by maturin.

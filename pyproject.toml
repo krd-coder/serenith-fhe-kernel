@@ -1,0 +1,4 @@
+# TODO: Configure maturin as the build backend for the mixed Rust and Python package.
+# TODO: Set package metadata, supported Python versions, and runtime and development dependencies.
+# TODO: Set python-source to python, the Rust manifest path, and the serenith_tfhe extension module name.
+# TODO: Configure ruff, mypy, and pytest for the Python package and tests.
