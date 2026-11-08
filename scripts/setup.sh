@@ -92,7 +92,7 @@ echo "[4/4] Checking the Python dependencies and native extension..."
 "$venv_python" -c 'import einops, sentence_transformers; from serenith_demo.serenith_tfhe import validate_dimension; validate_dimension(64)'
 
 echo "Setup complete. Run the 64-dimensional demo with:"
-printf '  %q -m serenith_demo "First document text" "Second document text" --dimension 64\n' "$venv_python"
+printf '  %q -m serenith_demo examples/abstracts/navier_stokes.txt examples/abstracts/navier_stokes_paraphrase.txt --dimension 64\n' "$venv_python"
 echo 'Add --prove to generate and verify ZKV2 encryption proofs.'
 if "$cuda_enabled"; then
     echo 'Add --backend cuda to use the CUDA-enabled extension and an NVIDIA GPU.'

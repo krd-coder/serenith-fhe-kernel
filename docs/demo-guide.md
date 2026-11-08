@@ -1,6 +1,6 @@
 # Demo guide
 
-The demonstration accepts two text strings, embeds them with `nomic-ai/nomic-embed-text-v1.5` and evaluates a quantized similarity threshold under TFHE. It is a single-process, single-key example for Linux or WSL2. CPU is the default; CUDA is optional.
+The demonstration accepts two UTF-8 text file paths, embeds them with `nomic-ai/nomic-embed-text-v1.5` and evaluates a quantized similarity threshold under TFHE. It is a single-process, single-key example for Linux or WSL2. CPU is the default; CUDA is optional.
 
 ## Requirements
 
@@ -13,7 +13,7 @@ From the repository root, install and run:
 ```sh
 bash scripts/setup.sh
 .venv/bin/python -m serenith_demo --help
-.venv/bin/python -m serenith_demo "A study of renewable energy systems." "A study of renewable energy systems." --dimension 64
+.venv/bin/python -m serenith_demo examples/abstracts/navier_stokes.txt examples/abstracts/navier_stokes_paraphrase.txt --dimension 64
 ```
 
 The setup script creates or reuses `.venv`, installs CPU PyTorch when absent, installs the package from `pyproject.toml`, and checks the native extension. Reusing an environment may update packages in it; the script does not delete the environment. The initial Rust release build can take considerable time. Set `SERENITH_PYTHON` to a compatible interpreter if `python3` is not the intended one.
@@ -22,18 +22,18 @@ On WSL, keeping the repository in the Linux filesystem avoids slow Windows files
 
 ```sh
 CARGO_TARGET_DIR="$HOME/.cache/serenith-fhe-kernel/target" SERENITH_VENV_DIR="$HOME/.venvs/serenith-fhe-kernel" bash scripts/setup.sh
-"$HOME/.venvs/serenith-fhe-kernel/bin/python" -m serenith_demo "First document text" "Second document text" --dimension 64
+"$HOME/.venvs/serenith-fhe-kernel/bin/python" -m serenith_demo examples/abstracts/navier_stokes.txt examples/abstracts/navier_stokes_paraphrase.txt --dimension 64
 ```
 
 ## Output and options
 
-### Experimental CUDA backend
+### CUDA backend
 
 CUDA requires a compatible NVIDIA GPU and driver, a compatible CUDA toolkit with `nvcc`, CMake, libclang and the corresponding build dependencies. The CUDA setup has not been tested on a GPU in this repository; validate it on the target machine before relying on it.
 
 ```sh
 bash scripts/setup.sh --cuda
-.venv/bin/python -m serenith_demo "First document text" "Second document text" --dimension 64 --backend cuda
+.venv/bin/python -m serenith_demo examples/abstracts/navier_stokes.txt examples/abstracts/navier_stokes_paraphrase.txt --dimension 64 --backend cuda
 ```
 
 When using `SERENITH_VENV_DIR`, invoke the Python executable printed by the setup script instead. A CPU-only extension rejects `--backend cuda` and does not silently fall back. Running setup without `--cuda` again installs a CPU-only extension. GPU and CPU contexts generate independent keys; ZKV2 proofs and GPU results require end-to-end validation on the target hardware. CUDA progress counts completed product batches before the final reduction and comparison.

@@ -37,6 +37,7 @@ The broader proof of concept brings these ideas together with additional protoco
 - `tests/` — tests for quantization, FHE correctness and the Rust–Python interface.
 - `benchmarks/` — measurements and their results.
 - `docs/` — architecture and supporting documentation.
+- `examples/abstracts/` — four short text samples for similarity comparisons.
 
 ## Quick start
 
@@ -45,8 +46,18 @@ On Linux or WSL, with Python 3.10–3.14 and Rust 1.91.1 or newer installed:
 ```sh
 bash scripts/setup.sh
 .venv/bin/python -m serenith_demo --help
-.venv/bin/python -m serenith_demo "First document text" "Second document text" --dimension 64
+.venv/bin/python -m serenith_demo examples/abstracts/navier_stokes.txt examples/abstracts/navier_stokes_paraphrase.txt --dimension 64
 ```
+
+The two positional arguments are paths to UTF-8 text files. The sample pair above contains two descriptions of the same Navier–Stokes research and is intended to return `decision: true` at the default threshold. A second pair covers the quasi-Riemann hypothesis:
+
+```sh
+.venv/bin/python -m serenith_demo examples/abstracts/riemann.txt examples/abstracts/riemann_paraphrase.txt --dimension 64
+```
+
+To compare different topics, use `examples/abstracts/navier_stokes.txt` and `examples/abstracts/riemann.txt`. With the default 64-dimensional configuration and threshold of 0.8, the cleartext reference produced `true` for each matching pair and `false` across these topics in a local model run. The encrypted result should match the reference.
+
+The four files are short, original summaries written for this demonstration, not verbatim abstracts. The Navier–Stokes samples refer to [OpenAI’s research announcement](https://openai.com/index/navier-stokes-solution/); the Riemann samples refer to [OpenAI’s quasi-Riemann manuscript](https://github.com/openai/math/tree/main/preprints/The-Quasi-Riemann-Hypothesis-September-30-2026). Results depend on the embedding model, dimension and threshold; `decision` is compared with `reference_decision`.
 
 Setup downloads the Python dependencies and builds the Rust extension. The first demo run downloads the Nomic model and its custom model code. The single-key demo performs FHE computation on CPU, which can take several minutes. See [the demo guide](docs/demo-guide.md) for WSL environment placement and troubleshooting.
 
