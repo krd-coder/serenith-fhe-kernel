@@ -1,3 +1,12 @@
-# TODO: Define the Rust workspace and include the rust-fhe-kernel crate as a member.
-# TODO: Configure shared Rust edition, package metadata, and dependency versions.
-# TODO: Configure the PyO3 extension build used by maturin.
+[workspace]
+members = ["rust-fhe-kernel"]
+resolver = "2"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+
+[workspace.dependencies]
+pyo3 = "0.30"
+rayon = "1.12"
+tfhe = { version = "=1.8.2", default-features = false, features = ["integer", "boolean", "zk-pok"] }
