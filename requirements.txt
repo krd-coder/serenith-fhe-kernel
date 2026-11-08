@@ -1,4 +1,3 @@
-# TODO: Add compatible, pinned runtime dependencies for numpy and sentence-transformers.
-# TODO: Add any additional dependencies required to load nomic-embed-text-v1.5.
-# TODO: Keep runtime dependencies consistent with pyproject.toml.
-# TODO: Document installation of the local serenith_tfhe extension through maturin.
+# Install the local Rust/Python package and its runtime dependencies from pyproject.toml.
+# This is not a fully pinned lockfile; use a platform-specific lock for reproducible builds.
+-e .
