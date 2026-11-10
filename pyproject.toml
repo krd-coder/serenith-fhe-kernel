@@ -1,4 +1,20 @@
-# TODO: Configure maturin as the build backend for the mixed Rust and Python package.
-# TODO: Set package metadata, supported Python versions, and runtime and development dependencies.
-# TODO: Set python-source to python, the Rust manifest path, and the serenith_tfhe extension module name.
-# TODO: Configure ruff, mypy, and pytest for the Python package and tests.
+[build-system]
+requires = ["maturin>=1.8,<2"]
+build-backend = "maturin"
+
+[project]
+name = "serenith-fhe-kernel"
+version = "0.1.0"
+description = "Single-key demonstration of encrypted similarity matching with CPU and experimental CUDA backends"
+requires-python = ">=3.10,<3.15"
+dependencies = ["numpy>=1.26,<3", "sentence-transformers==5.7.0", "transformers==4.57.6", "einops==0.8.2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "maturin>=1.8,<2", "ruff>=0.9,<1", "mypy>=1.14,<2"]
+
+[tool.maturin]
+python-source = "python"
+manifest-path = "rust-fhe-kernel/Cargo.toml"
+module-name = "serenith_demo.serenith_tfhe"
+features = ["extension-module"]
+exclude = ["**/__pycache__/**", "**/*.pyc"]

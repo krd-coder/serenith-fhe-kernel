@@ -1,5 +1,2 @@
--r requirements.txt
-
-# TODO: Add compatible, pinned development dependencies for maturin, ruff, mypy, and pytest.
-# TODO: Add typing support packages if required by the selected runtime dependencies.
-# TODO: Keep development dependencies consistent with pyproject.toml.
+# Install the same local package with development tools from pyproject.toml.
+-e .[dev]

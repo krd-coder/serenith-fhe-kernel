@@ -1,0 +1,15 @@
+# Local virtual environments and Python caches
+.venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+*.egg-info/
+
+# Build outputs
+target/
+build/
+dist/
+*.so
+*.pyd

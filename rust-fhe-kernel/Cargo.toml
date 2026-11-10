@@ -1,4 +1,17 @@
-# TODO: Define the native Rust crate with a cdylib library named serenith_tfhe.
-# TODO: Add tfhe version 1.8.2 with the integer, boolean, and zk-pok features.
-# TODO: Add rayon and pyo3 dependencies and configure PyO3 for the maturin extension build.
-# TODO: Set package metadata and inherit the shared workspace configuration.
+[package]
+name = "serenith-tfhe"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+name = "serenith_tfhe"
+crate-type = ["cdylib", "rlib"]
+
+[features]
+extension-module = ["pyo3/extension-module"]
+cuda = ["tfhe/gpu"]
+
+[dependencies]
+pyo3.workspace = true
+rayon.workspace = true
+tfhe.workspace = true
