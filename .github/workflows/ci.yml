@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  python:
+    name: Python fast tests (${{ matrix.python }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python: ["3.10", "3.14"]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: ${{ matrix.python }}
+      - name: Install test dependencies
+        run: python -m pip install "numpy>=1.26,<3" "pytest>=8,<10"
+      # Runs without the native extension: tests that need it skip via importorskip,
+      # and real FHE/ZKV2/CUDA tests stay opt-in (SERENITH_RUN_* flags).
+      - name: Run pytest
+        env:
+          PYTHONPATH: python
+        run: python -m pytest -q
+
+  rust:
+    name: Rust check and tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - name: cargo check
+        run: cargo check --locked
+      # Slow FHE tests are #[ignore]d and are not run here.
+      - name: cargo test
+        run: cargo test --locked
